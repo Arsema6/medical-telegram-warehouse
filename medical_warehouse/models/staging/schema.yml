@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_telegram_messages
+    description: "Cleaned and standardized Telegram messages used as the staging layer."
+
+    columns:
+      - name: message_id
+        description: "Unique Telegram message identifier."
+
+      - name: channel_name
+        description: "Source Telegram channel."
+
+      - name: message_date
+        description: "Date and time the message was published."
+
+      - name: message_length
+        description: "Length of the message text."
+
+      - name: has_image
+        description: "True if the message contains an image."
