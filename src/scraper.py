@@ -25,12 +25,12 @@ logging.basicConfig(
 )
 
 CHANNELS = {
-    "chemed": "CheMed123",
-    "lobelia": "lobelia4cosmetics",
-    "tikvah_pharma": "tikvahpharma"
+    "chemed": {"entity": "CheMed123", "type": "Medical"},
+    "lobelia": {"entity": "lobelia4cosmetics", "type": "Cosmetics"},
+    "tikvah_pharma": {"entity": "tikvahpharma", "type": "Pharmaceutical"}
 }
 
-async def scrape_channel(channel_name, entity):
+async def scrape_channel(channel_name, entity, channel_type):
     today = datetime.today().strftime("%Y-%m-%d")
 
     output_dir = os.path.join(BASE_DIR, "telegram_messages", today)
@@ -42,6 +42,8 @@ async def scrape_channel(channel_name, entity):
         try:
             record = {
                 "message_id": msg.id,
+                "channel_name": channel_name,
+                "channel_type": channel_type,
                 "date": str(msg.date),
                 "text": msg.message,
                 "views": msg.views,
@@ -74,14 +76,14 @@ async def scrape_channel(channel_name, entity):
 async def main():
     await client.start()
 
-    for key, channel in CHANNELS.items():
+    for key, channel_info in CHANNELS.items():
         try:
-            logging.info(f"Scraping {channel}")
-            entity = await client.get_entity(channel)
+            logging.info(f"Scraping {channel_info['entity']}")
+            entity = await client.get_entity(channel_info['entity'])
             print(f"Scraping: {entity.title}")
-            await scrape_channel(key, entity)
+            await scrape_channel(key, entity, channel_info['type'])
         except Exception as e:
-            logging.error(f"Failed channel {channel}: {e}")
+            logging.error(f"Failed channel {channel_info['entity']}: {e}")
 
     await client.disconnect()
 

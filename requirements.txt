@@ -1,0 +1,26 @@
+# Telegram Scraping
+Telethon>=1.34.0
+python-dotenv>=1.0.0
+
+# Database
+psycopg2-binary>=2.9.9
+sqlalchemy>=2.0.23
+
+# Data Processing
+pandas>=2.1.4
+
+# dbt
+dbt-postgres>=1.7.0
+dbt-core>=1.7.0
+
+# Object Detection
+ultralytics>=8.1.0
+
+# API
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+
+# Orchestration
+dagster>=1.6.0
+dagster-webserver>=1.6.0

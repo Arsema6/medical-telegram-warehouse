@@ -2,16 +2,19 @@ import os
 import json
 import psycopg2
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # -------------------------
 # DB CONNECTION SETTINGS
 # -------------------------
 conn = psycopg2.connect(
-    host="localhost",
-    database="medical_warehouse",
-    user="postgres",
-    password="ballet1112",  # <-- change this
-    port=5432
+    host=os.getenv("DB_HOST", "localhost"),
+    database=os.getenv("DB_NAME", "medical_warehouse"),
+    user=os.getenv("DB_USER", "postgres"),
+    password=os.getenv("DB_PASSWORD"),
+    port=int(os.getenv("DB_PORT", "5432"))
 )
 
 cursor = conn.cursor()
@@ -25,6 +28,7 @@ CREATE SCHEMA IF NOT EXISTS raw;
 CREATE TABLE IF NOT EXISTS raw.telegram_messages (
     message_id BIGINT,
     channel_name TEXT,
+    channel_type TEXT,
     message_date TIMESTAMP,
     message_text TEXT,
     views INTEGER,
@@ -65,6 +69,7 @@ for date_folder in os.listdir(BASE_PATH):
                     INSERT INTO raw.telegram_messages (
                         message_id,
                         channel_name,
+                        channel_type,
                         message_date,
                         message_text,
                         views,
@@ -72,10 +77,11 @@ for date_folder in os.listdir(BASE_PATH):
                         has_media,
                         image_path
                     )
-                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """, (
                     msg.get("message_id"),
                     channel_name,
+                    msg.get("channel_type"),
                     msg.get("date"),
                     msg.get("text"),
                     msg.get("views"),

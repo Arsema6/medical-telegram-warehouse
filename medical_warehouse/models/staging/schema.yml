@@ -11,8 +11,23 @@ models:
       - name: channel_name
         description: "Source Telegram channel."
 
+      - name: channel_type
+        description: "Business category of the channel (Medical, Pharmaceutical, Cosmetics)."
+
       - name: message_date
         description: "Date and time the message was published."
+
+      - name: message_text
+        description: "Text content of the Telegram message."
+
+      - name: views
+        description: "Number of message views."
+
+      - name: forwards
+        description: "Number of times the message was forwarded."
+
+      - name: has_media
+        description: "Whether the message contains media."
 
       - name: message_length
         description: "Length of the message text."

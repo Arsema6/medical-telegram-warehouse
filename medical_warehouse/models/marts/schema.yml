@@ -85,6 +85,10 @@ models:
 
       - name: date_key
         description: "Foreign key referencing dim_dates."
+        tests:
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
 
       - name: message_text
         description: "Text content of the Telegram message."
@@ -100,3 +104,28 @@ models:
 
       - name: has_image
         description: "Indicates whether the message contains an image."
+
+      - name: image_path
+        description: "Path to the downloaded image if present."
+
+  - name: fct_image_detections
+    description: "Fact table containing YOLO object detection results for images."
+
+    columns:
+      - name: message_id
+        description: "Foreign key referencing fct_messages."
+
+      - name: channel_key
+        description: "Foreign key referencing dim_channels."
+
+      - name: date_key
+        description: "Foreign key referencing dim_dates."
+
+      - name: detected_class
+        description: "Detected object class from YOLO."
+
+      - name: image_category
+        description: "Categorized image type (promotional, product_display, lifestyle, other)."
+
+      - name: detection_channel
+        description: "Channel name from detection results."

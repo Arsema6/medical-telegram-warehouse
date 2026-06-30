@@ -1,6 +1,7 @@
 select
     message_id,
     channel_name,
+    channel_type,
     message_date,
     message_text,
     coalesce(views,0) as views,
