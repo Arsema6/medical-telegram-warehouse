@@ -62,9 +62,10 @@ Thumbs.db
 # Dagster
 .dagster/
 tmp_dagster_home_*/
+.tmp_dagster_home_*/
 
 # Jupyter
 .ipynb_checkpoints/
 
 # YOLO model (optional - uncomment if you want to exclude)
-# yolov8n.pt
+yolov8n.pt
