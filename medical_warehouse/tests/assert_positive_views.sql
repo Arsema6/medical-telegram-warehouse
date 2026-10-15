@@ -1,3 +1,3 @@
 select *
 from {{ ref('fct_messages') }}
-where views < 0
+where view_count < 0
