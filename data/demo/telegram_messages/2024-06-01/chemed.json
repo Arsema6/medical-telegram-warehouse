@@ -1,0 +1,54 @@
+[
+  {
+    "message_id": 101,
+    "channel_name": "chemed",
+    "channel_type": "Medical",
+    "date": "2024-06-01T08:15:00+00:00",
+    "text": "Paracetamol 500mg tablets available. Pack of 20. Addis Ababa delivery.",
+    "views": 320,
+    "forwards": 12,
+    "has_media": true,
+    "image_path": "data/raw/images/chemed/101.jpg"
+  },
+  {
+    "message_id": 102,
+    "channel_name": "chemed",
+    "channel_type": "Medical",
+    "date": "2024-06-01T11:40:00+00:00",
+    "text": "Amoxicillin 500mg capsules in stock. Pharmacy grade.",
+    "views": 210,
+    "forwards": 4,
+    "has_media": false
+  },
+  {
+    "message_id": 103,
+    "channel_name": "chemed",
+    "channel_type": "Medical",
+    "date": "2024-06-02T09:05:00+00:00",
+    "text": "Ibuprofen 400mg for pain relief. Limited quantity.",
+    "views": 180,
+    "forwards": 3,
+    "has_media": true,
+    "image_path": "data/raw/images/chemed/103.jpg"
+  },
+  {
+    "message_id": 104,
+    "channel_name": "chemed",
+    "channel_type": "Medical",
+    "date": "2024-06-03T14:22:00+00:00",
+    "text": "ORS sachets and zinc tablets for clinics. Bulk order welcome.",
+    "views": 95,
+    "forwards": 1,
+    "has_media": false
+  },
+  {
+    "message_id": 105,
+    "channel_name": "chemed",
+    "channel_type": "Medical",
+    "date": "2024-06-08T16:00:00+00:00",
+    "text": "Metformin 500mg restocked. Weekend pickup available.",
+    "views": 410,
+    "forwards": 9,
+    "has_media": false
+  }
+]

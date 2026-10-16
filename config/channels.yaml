@@ -1,0 +1,12 @@
+# Public medical-market Telegram channels used by the scraper.
+# message_limit can be overridden by TELEGRAM_MESSAGE_LIMIT.
+channels:
+  - key: chemed
+    entity: CheMed123
+    type: Medical
+  - key: lobelia
+    entity: lobelia4cosmetics
+    type: Cosmetics
+  - key: tikvah_pharma
+    entity: tikvahpharma
+    type: Pharmaceutical

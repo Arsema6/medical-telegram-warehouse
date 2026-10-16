@@ -1,26 +1,16 @@
-# Telegram Scraping
+# Core runtime (API, loaders, dbt, Dagster). YOLO is optional: requirements-ml.txt
 Telethon>=1.34.0
 python-dotenv>=1.0.0
-
-# Database
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+PyYAML>=6.0.1
+tenacity>=8.2.3
 psycopg2-binary>=2.9.9
-sqlalchemy>=2.0.23
-
-# Data Processing
+SQLAlchemy>=2.0.23
 pandas>=2.1.4
-
-# dbt
-dbt-postgres>=1.7.0
-dbt-core>=1.7.0
-
-# Object Detection
-ultralytics>=8.1.0
-
-# API
+dbt-core>=1.10.0,<2.0.0
+dbt-postgres>=1.10.0,<2.0.0
 fastapi>=0.109.0
 uvicorn[standard]>=0.27.0
-pydantic>=2.5.0
-
-# Orchestration
 dagster>=1.6.0
 dagster-webserver>=1.6.0

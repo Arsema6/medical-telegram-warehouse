@@ -1,0 +1,44 @@
+[
+  {
+    "message_id": 201,
+    "channel_name": "lobelia",
+    "channel_type": "Cosmetics",
+    "date": "2024-06-01T10:00:00+00:00",
+    "text": "Vitamin C serum and sunscreen kit. New shipment.",
+    "views": 540,
+    "forwards": 21,
+    "has_media": true,
+    "image_path": "data/raw/images/lobelia/201.jpg"
+  },
+  {
+    "message_id": 202,
+    "channel_name": "lobelia",
+    "channel_type": "Cosmetics",
+    "date": "2024-06-04T12:30:00+00:00",
+    "text": "Hand sanitizer 250ml and antiseptic soap bundle.",
+    "views": 260,
+    "forwards": 6,
+    "has_media": true,
+    "image_path": "data/raw/images/lobelia/202.jpg"
+  },
+  {
+    "message_id": 203,
+    "channel_name": "lobelia",
+    "channel_type": "Cosmetics",
+    "date": "2024-06-05T18:45:00+00:00",
+    "text": "Moisturizer with shea butter. No paracetamol in this product, skincare only.",
+    "views": 150,
+    "forwards": 2,
+    "has_media": false
+  },
+  {
+    "message_id": 204,
+    "channel_name": "lobelia",
+    "channel_type": "Cosmetics",
+    "date": "2024-06-09T09:10:00+00:00",
+    "text": "Baby lotion and zinc oxide cream restock.",
+    "views": 88,
+    "forwards": 0,
+    "has_media": false
+  }
+]

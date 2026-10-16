@@ -1,0 +1,3 @@
+# Optional computer-vision extras. Not required for the demo warehouse or CI.
+-r requirements.txt
+ultralytics>=8.1.0

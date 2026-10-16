@@ -1,0 +1,7 @@
+image_path,channel_name,message_id,detected_objects,image_category,max_confidence
+data/raw/images/chemed/101.jpg,chemed,101,"['bottle', 'person']",promotional,0.81
+data/raw/images/chemed/103.jpg,chemed,103,"['bottle']",product_display,0.74
+data/raw/images/lobelia/201.jpg,lobelia,201,"['person']",lifestyle,0.66
+data/raw/images/lobelia/202.jpg,lobelia,202,"['bottle']",product_display,0.79
+data/raw/images/tikvah_pharma/301.jpg,tikvah_pharma,301,"['box']",product_display,0.71
+data/raw/images/tikvah_pharma/303.jpg,tikvah_pharma,303,"['bottle', 'person']",promotional,0.83

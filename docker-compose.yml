@@ -1,46 +1,72 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
     container_name: medical_warehouse_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: medical_warehouse
+      POSTGRES_USER: ${DB_USER:-warehouse}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-warehouse}
+      POSTGRES_DB: ${DB_NAME:-medical_warehouse}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-warehouse} -d ${DB_NAME:-medical_warehouse}"]
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
-  app:
-    build: .
-    container_name: medical_warehouse_app
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical_warehouse_api
     depends_on:
       postgres:
         condition: service_healthy
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: medical_warehouse
-      API_ID: ${API_ID}
-      API_HASH: ${API_HASH}
-    volumes:
-      - .:/app
-      - data:/app/data
-      - logs:/app/logs
+      DB_USER: ${DB_USER:-warehouse}
+      DB_PASSWORD: ${DB_PASSWORD:-warehouse}
+      DB_NAME: ${DB_NAME:-medical_warehouse}
+      API_KEY: ${API_KEY:-dev-api-key-change-me}
+      API_RATE_LIMIT_PER_MINUTE: ${API_RATE_LIMIT_PER_MINUTE:-60}
+      SKIP_YOLO: "1"
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    command: >
+      sh -c "python -m scripts.migrate
+      && python -m scripts.seed_demo
+      && uvicorn api.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "8000:8000"
+
+  dagster:
+    profiles: ["full"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical_warehouse_dagster
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-warehouse}
+      DB_PASSWORD: ${DB_PASSWORD:-warehouse}
+      DB_NAME: ${DB_NAME:-medical_warehouse}
+      API_ID: ${API_ID:-}
+      API_HASH: ${API_HASH:-}
+      TELEGRAM_SESSION_PATH: /app/session
+      SKIP_YOLO: ${SKIP_YOLO:-1}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    command: dagster dev -h 0.0.0.0 -p 3000 -f pipeline.py
     ports:
       - "3000:3000"
-      - "8000:8000"
+    volumes:
+      - .:/app
 
 volumes:
   postgres_data:
-  data:
-  logs:

@@ -1,0 +1,44 @@
+[
+  {
+    "message_id": 301,
+    "channel_name": "tikvah_pharma",
+    "channel_type": "Pharmaceutical",
+    "date": "2024-06-02T07:55:00+00:00",
+    "text": "Omeprazole 20mg and amoxicillin combination packs for clinics.",
+    "views": 275,
+    "forwards": 7,
+    "has_media": true,
+    "image_path": "data/raw/images/tikvah_pharma/301.jpg"
+  },
+  {
+    "message_id": 302,
+    "channel_name": "tikvah_pharma",
+    "channel_type": "Pharmaceutical",
+    "date": "2024-06-06T13:20:00+00:00",
+    "text": "Insulin syringes and glucometer strips. Cold-chain handled.",
+    "views": 330,
+    "forwards": 11,
+    "has_media": false
+  },
+  {
+    "message_id": 303,
+    "channel_name": "tikvah_pharma",
+    "channel_type": "Pharmaceutical",
+    "date": "2024-06-07T15:05:00+00:00",
+    "text": "Paracetamol syrup for pediatrics plus ibuprofen suspension.",
+    "views": 190,
+    "forwards": 5,
+    "has_media": true,
+    "image_path": "data/raw/images/tikvah_pharma/303.jpg"
+  },
+  {
+    "message_id": 304,
+    "channel_name": "tikvah_pharma",
+    "channel_type": "Pharmaceutical",
+    "date": "2024-06-10T11:11:00+00:00",
+    "text": "Ceftriaxone injection available to licensed buyers only.",
+    "views": 120,
+    "forwards": 2,
+    "has_media": false
+  }
+]
