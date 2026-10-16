@@ -2,7 +2,41 @@ version: 2
 
 sources:
   - name: raw
+    description: Landing tables populated by the Python loaders. Preserve original grain for audit.
     schema: raw
+    loaded_at_field: loaded_at
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 72, period: hour}
     tables:
       - name: telegram_messages
+        description: Idempotent upsert of scraped Telegram messages (unique on channel_name + message_id).
+        columns:
+          - name: message_id
+            description: Telegram message id, unique only within a channel.
+            tests:
+              - not_null
+          - name: channel_name
+            tests:
+              - not_null
+          - name: loaded_at
+            tests:
+              - not_null
       - name: image_detections
+        description: YOLO (or demo) image-level detections keyed to a Telegram message.
+        freshness:
+          warn_after: {count: 48, period: hour}
+          error_after: {count: 168, period: hour}
+        columns:
+          - name: message_id
+            tests:
+              - not_null
+          - name: channel_name
+            tests:
+              - not_null
+          - name: image_category
+            tests:
+              - accepted_values:
+                  arguments:
+                    values: ["promotional", "product_display", "lifestyle", "other"]
+                    quote: true

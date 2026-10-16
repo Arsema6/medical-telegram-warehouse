@@ -1,15 +1,22 @@
-Welcome to your new dbt project!
+# dbt project: medical_warehouse
 
-### Using the starter project
+Star-schema transforms over `raw.telegram_messages` and `raw.image_detections`.
 
-Try running the following commands:
-- dbt run
-- dbt test
+## Layout
 
+- `models/staging` — cleaned message grain (`stg_telegram_messages`)
+- `models/marts` — `dim_channels`, `dim_dates`, `fct_messages`, `fct_image_detections`
+- `tests` — warehouse assertions (no future dates, non-negative views)
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+## Commands
+
+From the repository root:
+
+```bash
+dbt debug --project-dir medical_warehouse --profiles-dir medical_warehouse
+dbt run --project-dir medical_warehouse --profiles-dir medical_warehouse
+dbt test --project-dir medical_warehouse --profiles-dir medical_warehouse
+dbt docs generate --project-dir medical_warehouse --profiles-dir medical_warehouse
+```
+
+Connection settings come from `DB_*` environment variables (see `.env.example`).

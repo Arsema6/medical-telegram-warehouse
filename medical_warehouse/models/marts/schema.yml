@@ -2,130 +2,141 @@ version: 2
 
 models:
   - name: dim_channels
-    description: "Dimension table containing information about Telegram channels."
-
+    description: Channel dimension (one row per Telegram channel). Grain is channel_name.
     columns:
       - name: channel_key
-        description: "Surrogate primary key for each Telegram channel."
+        description: MD5 of channel_name; stable across rebuilds.
         tests:
           - unique
           - not_null
-
       - name: channel_name
-        description: "Name of the Telegram channel."
-
+        tests:
+          - unique
+          - not_null
       - name: channel_type
-        description: "Business category of the channel (Medical, Pharmaceutical, Cosmetics)."
-
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Medical", "Cosmetics", "Pharmaceutical"]
+                quote: true
       - name: first_post_date
-        description: "Date of the earliest scraped message."
-
+        description: Earliest scraped message timestamp.
       - name: last_post_date
-        description: "Date of the latest scraped message."
-
+        description: Latest scraped message timestamp.
       - name: total_posts
-        description: "Total number of scraped posts."
-
+        description: Message count in the current warehouse snapshot.
+        tests:
+          - not_null
       - name: avg_views
-        description: "Average number of views per message."
+        description: Average views per message.
 
   - name: dim_dates
-    description: "Date dimension used for time-based analysis."
-
+    description: Date dimension derived from observed message dates (YYYYMMDD keys).
     columns:
       - name: date_key
-        description: "Primary key in YYYYMMDD format."
+        description: Primary key in YYYYMMDD format.
         tests:
           - unique
           - not_null
-
       - name: full_date
-        description: "Calendar date."
-
+        tests:
+          - unique
+          - not_null
       - name: day_of_week
-        description: "Day number within the week."
-
+        description: PostgreSQL DOW (0=Sunday).
       - name: day_name
-        description: "Name of the weekday."
-
+        description: Calendar weekday name.
       - name: week_of_year
-        description: "Week number within the year."
-
+        description: ISO-style week number from extract(week).
       - name: month
-        description: "Month number."
-
+        description: Month number 1-12.
       - name: month_name
-        description: "Name of the month."
-
+        description: Calendar month name.
       - name: quarter
-        description: "Quarter of the year."
-
+        description: Quarter of the year.
       - name: year
-        description: "Calendar year."
-
+        description: Calendar year.
       - name: is_weekend
-        description: "True if the date falls on a weekend."
+        description: True when DOW is Sunday or Saturday.
 
   - name: fct_messages
-    description: "Fact table containing one record for each Telegram message."
-
+    description: >
+      Fact table at message grain. Foreign keys to dim_channels and dim_dates.
+      Incremental on updated_at so view counts can refresh without duplicates.
     columns:
-      - name: message_id
-        description: "Unique Telegram message identifier."
+      - name: message_key
+        description: Surrogate primary key (md5 of channel + message_id).
         tests:
           - unique
           - not_null
-
+      - name: message_id
+        tests:
+          - not_null
       - name: channel_key
-        description: "Foreign key referencing dim_channels."
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_channels')
-              field: channel_key
-
+              arguments:
+                to: ref('dim_channels')
+                field: channel_key
       - name: date_key
-        description: "Foreign key referencing dim_dates."
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_dates')
-              field: date_key
-
+              arguments:
+                to: ref('dim_dates')
+                field: date_key
+      - name: channel_name
+        description: Degenerate dimension for convenient filters.
+        tests:
+          - not_null
       - name: message_text
-        description: "Text content of the Telegram message."
-
+        description: Message body.
       - name: message_length
-        description: "Number of characters in the message."
-
+        description: Character length.
       - name: view_count
-        description: "Number of message views."
-
+        tests:
+          - not_null
       - name: forward_count
-        description: "Number of times the message was forwarded."
-
+        tests:
+          - not_null
       - name: has_image
-        description: "Indicates whether the message contains an image."
-
-      - name: image_path
-        description: "Path to the downloaded image if present."
+        description: True when an image path is present.
 
   - name: fct_image_detections
-    description: "Fact table containing YOLO object detection results for images."
-
+    description: Image-level YOLO (or demo) detections joined to message facts.
     columns:
-      - name: message_id
-        description: "Foreign key referencing fct_messages."
-
+      - name: detection_key
+        tests:
+          - unique
+          - not_null
+      - name: message_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fct_messages')
+                field: message_key
       - name: channel_key
-        description: "Foreign key referencing dim_channels."
-
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_channels')
+                field: channel_key
       - name: date_key
-        description: "Foreign key referencing dim_dates."
-
-      - name: detected_class
-        description: "Detected object class from YOLO."
-
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_key
       - name: image_category
-        description: "Categorized image type (promotional, product_display, lifestyle, other)."
-
-      - name: detection_channel
-        description: "Channel name from detection results."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["promotional", "product_display", "lifestyle", "other"]
+                quote: true
+      - name: detected_objects
+        description: JSON array of COCO class names stored as text.
+      - name: max_confidence
+        description: Highest box confidence from YOLO when available.

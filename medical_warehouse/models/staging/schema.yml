@@ -2,35 +2,47 @@ version: 2
 
 models:
   - name: stg_telegram_messages
-    description: "Cleaned and standardized Telegram messages used as the staging layer."
-
+    description: >
+      Cleaned Telegram messages at one row per channel + message_id.
+      Filters null keys and standardizes views/forwards/has_image.
     columns:
+      - name: message_key
+        description: Stable hash of channel_name and message_id.
+        tests:
+          - unique
+          - not_null
       - name: message_id
-        description: "Unique Telegram message identifier."
-
+        description: Telegram message identifier (unique within a channel).
+        tests:
+          - not_null
       - name: channel_name
-        description: "Source Telegram channel."
-
+        description: Internal channel key from config/channels.yaml.
+        tests:
+          - not_null
       - name: channel_type
-        description: "Business category of the channel (Medical, Pharmaceutical, Cosmetics)."
-
+        description: Business category of the channel.
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Medical", "Cosmetics", "Pharmaceutical"]
+                quote: true
       - name: message_date
-        description: "Date and time the message was published."
-
+        description: Timestamp the message was published (UTC when provided).
       - name: message_text
-        description: "Text content of the Telegram message."
-
+        description: Text content of the Telegram message.
       - name: views
-        description: "Number of message views."
-
+        description: View count, coalesced to zero.
+        tests:
+          - not_null
       - name: forwards
-        description: "Number of times the message was forwarded."
-
+        description: Forward count, coalesced to zero.
+        tests:
+          - not_null
       - name: has_media
-        description: "Whether the message contains media."
-
+        description: Whether Telegram reported media on the message.
       - name: message_length
-        description: "Length of the message text."
-
+        description: Character length of message_text.
       - name: has_image
-        description: "True if the message contains an image."
+        description: True when a local image_path was stored.
+      - name: image_path
+        description: Path to the downloaded image if present.
