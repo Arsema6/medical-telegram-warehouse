@@ -225,7 +225,7 @@ python -m scripts.seed_demo
 python -m scripts.collect_engineering_outcomes
 ```
 
-`docs/engineering_outcomes.json` is the committed source of truth for load milliseconds, SQL row counts, and TestClient latency on the machine that produced it.
+`docs/engineering_outcomes.json` is the committed source of truth for load milliseconds, SQL row counts, and TestClient latency on the machine that produced it. On a clean checkout `data/raw/` contains only `.gitkeep`, so `seed_demo` loads just the 13 synthetic messages; if you have previously scraped live extracts they are loaded too, which is why the committed numbers come from an empty raw directory.
 
 ## Limitations and next steps
 
