@@ -34,6 +34,10 @@ dbt_packages/
 target/
 logs/
 *.dbt
+medical_warehouse/.user.yml
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
 
 # Data
 data/raw/*
