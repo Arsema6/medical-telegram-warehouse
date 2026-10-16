@@ -181,10 +181,11 @@ mypy src api scripts
 python -m pytest tests/ -v
 dbt compile --project-dir medical_warehouse --profiles-dir medical_warehouse
 dbt test --project-dir medical_warehouse --profiles-dir medical_warehouse
+dbt source freshness --project-dir medical_warehouse --profiles-dir medical_warehouse
 docker build -t medical-telegram-warehouse:local .
 ```
 
-Pytest mocks Telegram and the API database. Tests marked `integration` run against Postgres when it is reachable (GitHub Actions always starts a service). CI workflow: `.github/workflows/ci.yml`.
+Pytest mocks Telegram and the API database. Tests marked `integration` run against Postgres when it is reachable (GitHub Actions always starts a service). CI workflow: `.github/workflows/ci.yml` runs black/ruff/mypy, migrate + seed, pytest, dbt debug/compile/run/test/freshness, a Docker build, and `docker compose config`.
 
 ## Security and privacy
 
