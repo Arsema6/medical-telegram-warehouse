@@ -1,11 +1,18 @@
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
+"""SQLAlchemy session factory for FastAPI."""
 
-load_dotenv()
+from __future__ import annotations
 
-DB_URL = f"postgresql+psycopg2://{os.getenv('DB_USER', 'postgres')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'medical_warehouse')}"
+from collections.abc import Generator
 
-engine = create_engine(DB_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+from sqlalchemy.orm import Session
+
+from src.db import get_session_factory
+
+
+def get_db() -> Generator[Session, None, None]:
+    factory = get_session_factory()
+    db = factory()
+    try:
+        yield db
+    finally:
+        db.close()
