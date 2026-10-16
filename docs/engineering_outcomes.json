@@ -1,0 +1,33 @@
+{
+  "collected_at_utc": "2026-10-16T07:19:38.518775+00:00",
+  "note": "Measured on the machine that ran scripts/collect_engineering_outcomes.py after migrate + seed.",
+  "raw_table_counts": {
+    "telegram_messages": 13,
+    "image_detections": 6
+  },
+  "idempotent_reload": {
+    "first_load_rows_processed": 13,
+    "first_load_ms": 159.01,
+    "second_load_rows_processed": 13,
+    "second_load_ms": 150.57,
+    "raw_telegram_messages_count": 13,
+    "duplicate_row_delta": 0
+  },
+  "api": {
+    "request_count": 4,
+    "latency_ms_mean": 208.86,
+    "latency_ms_p50": 27.57,
+    "latency_ms_max": 756.61,
+    "status_codes": {
+      "/health": 200,
+      "/api/reports/top-products?limit=5": 200,
+      "/api/search/messages?query=paracetamol&limit=10": 200,
+      "/api/reports/visual-content": 200
+    }
+  },
+  "image_category_rules": {
+    "fixture_cases": 4,
+    "mismatches": {},
+    "accuracy_on_fixtures": 1.0
+  }
+}
